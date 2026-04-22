@@ -5,6 +5,10 @@ import type { Task, TaskFormState } from '../types/task'
 
 const TASKS_STORAGE_KEY = 'licious-task-dashboard-tasks'
 
+function getTodayDateString() {
+  return new Date().toISOString().split('T')[0]
+}
+
 export function useTaskManager() {
   const [tasks, setTasks] = useLocalStorageState<Task[]>(TASKS_STORAGE_KEY, [])
   const [form, setForm] = useState<TaskFormState>(INITIAL_TASK_FORM)
@@ -17,6 +21,9 @@ export function useTaskManager() {
 
   const saveTask = () => {
     if (!form.title.trim() || !form.description.trim() || !form.dueDate) {
+      return false
+    }
+    if (form.dueDate < getTodayDateString()) {
       return false
     }
 

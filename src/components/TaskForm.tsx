@@ -16,6 +16,8 @@ export function TaskForm({
   onSubmit,
   onCancelEdit,
 }: TaskFormProps) {
+  const minDueDate = new Date().toISOString().split('T')[0]
+
   return (
     <section className="panel">
       <h2>{isEditing ? 'Edit Task' : 'Create Task'}</h2>
@@ -54,6 +56,7 @@ export function TaskForm({
             type="date"
             value={form.dueDate}
             onChange={(event) => onChange({ ...form, dueDate: event.target.value })}
+            min={minDueDate}
             required
           />
         </div>

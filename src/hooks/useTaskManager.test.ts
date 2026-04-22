@@ -77,4 +77,25 @@ describe('useTaskManager', () => {
       '11111111-1111-4111-8111-111111111111',
     ])
   })
+
+  it('does not create a task when due date is in the past', () => {
+    const { result } = renderHook(() => useTaskManager())
+
+    act(() => {
+      result.current.setForm({
+        title: 'Past task',
+        description: 'Should be rejected',
+        priority: 'Low',
+        dueDate: '2000-01-01',
+      })
+    })
+
+    let wasSaved = false
+    act(() => {
+      wasSaved = result.current.saveTask()
+    })
+
+    expect(wasSaved).toBe(false)
+    expect(result.current.tasks).toHaveLength(0)
+  })
 })
