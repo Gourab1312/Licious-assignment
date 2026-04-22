@@ -27,6 +27,7 @@
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 16px;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .panel h2 {
@@ -75,6 +76,15 @@ button {
   padding: 10px 12px;
   border-radius: 10px;
   cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.15s ease, border-color 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 .ghost-button {
@@ -120,6 +130,20 @@ button {
   justify-content: space-between;
   gap: 12px;
   background: var(--task-bg);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  cursor: grab;
+}
+
+.task-item:hover {
+  box-shadow: 0 8px 20px rgba(30, 41, 59, 0.08);
+}
+
+.task-item:active {
+  cursor: grabbing;
+}
+
+.task-dragging {
+  opacity: 0.5;
 }
 
 .task-completed {
