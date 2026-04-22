@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import './App.css'
 import { AppHeader } from './components/AppHeader'
@@ -9,7 +9,7 @@ import { TaskToolbar } from './components/TaskToolbar'
 import { useTaskFilters } from './hooks/useTaskFilters'
 import { useTaskManager } from './hooks/useTaskManager'
 import { useTheme } from './hooks/useTheme'
-import type { ViewMode } from './types/task'
+import type { Task, ViewMode } from './types/task'
 
 function App() {
   const { theme, toggleTheme } = useTheme()
@@ -35,6 +35,7 @@ function App() {
     setPriorityFilter,
   } = useTaskFilters(tasks)
   const [viewMode, setViewMode] = useState<ViewMode>('list')
+  const formSectionRef = useRef<HTMLDivElement | null>(null)
 
   const totalTasks = tasks.length
   const completedTasks = tasks.filter((task) => task.completed).length
@@ -59,17 +60,27 @@ function App() {
     setViewMode((current) => (current === 'list' ? 'card' : 'list'))
   }
 
+  const handleEditTask = (task: Task) => {
+    startEditing(task)
+    formSectionRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+
   return (
     <main className="app">
       <AppHeader theme={theme} onToggleTheme={toggleTheme} />
 
-      <TaskForm
-        form={form}
-        isEditing={Boolean(editingTaskId)}
-        onChange={setForm}
-        onSubmit={handleSubmit}
-        onCancelEdit={resetForm}
-      />
+      <div ref={formSectionRef}>
+        <TaskForm
+          form={form}
+          isEditing={Boolean(editingTaskId)}
+          onChange={setForm}
+          onSubmit={handleSubmit}
+          onCancelEdit={resetForm}
+        />
+      </div>
 
       <section className="panel">
         <TaskToolbar
@@ -93,7 +104,7 @@ function App() {
           tasks={filteredTasks}
           viewMode={viewMode}
           onToggleStatus={toggleTaskStatus}
-          onEdit={startEditing}
+          onEdit={handleEditTask}
           onDelete={deleteTask}
           onReorder={handleReorder}
         />
