@@ -42,9 +42,19 @@ App runs at: [http://localhost:5173](http://localhost:5173)
 ```bash
 npm run lint
 npm run build
+npm run test
 ```
 
-Both commands pass successfully.
+All commands pass successfully.
+
+## Test Coverage (React Testing Library + Vitest)
+
+- `src/App.test.tsx`
+  - integration flow: create task and mark complete
+- `src/hooks/useTaskManager.test.ts`
+  - create, toggle status, reorder, and delete task behavior
+- `src/hooks/useTaskFilters.test.ts`
+  - search and filter logic by status/priority
 
 ## Folder Structure
 

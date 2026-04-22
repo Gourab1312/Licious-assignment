@@ -21,6 +21,7 @@ export function TaskForm({
       <h2>{isEditing ? 'Edit Task' : 'Create Task'}</h2>
       <form className="task-form" onSubmit={onSubmit}>
         <input
+          aria-label="Task title"
           value={form.title}
           onChange={(event) => onChange({ ...form, title: event.target.value })}
           placeholder="Task title"
@@ -28,6 +29,7 @@ export function TaskForm({
           required
         />
         <textarea
+          aria-label="Task description"
           value={form.description}
           onChange={(event) => onChange({ ...form, description: event.target.value })}
           placeholder="Task description"
@@ -37,6 +39,7 @@ export function TaskForm({
         />
         <div className="form-row">
           <select
+            aria-label="Task priority"
             value={form.priority}
             onChange={(event) =>
               onChange({ ...form, priority: event.target.value as Priority })
@@ -47,6 +50,7 @@ export function TaskForm({
             <option value="High">High</option>
           </select>
           <input
+            aria-label="Task due date"
             type="date"
             value={form.dueDate}
             onChange={(event) => onChange({ ...form, dueDate: event.target.value })}
