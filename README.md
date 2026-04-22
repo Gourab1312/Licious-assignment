@@ -6,6 +6,10 @@ A crisp and responsive task dashboard built with React + TypeScript + Vite.
 
 https://licious-assignment.vercel.app/
 
+## Screenshot of the Dashboard 
+<img width="1470" height="800" alt="Screenshot 2026-04-23 at 1 52 56 AM" src="https://github.com/user-attachments/assets/2ccfa5cc-e409-4ff5-92e8-e78f9a6b2eea" />
+
+
 ## Features
 
 - Create tasks with `title`, `description`, `priority`, and `due date`
