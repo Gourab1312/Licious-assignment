@@ -1,13 +1,53 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>licious-assignment</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* 
+    On refresh, browser flow is:
+    HTML/CSS loads first (default :root light variables apply)
+    First paint happens in light mode
+    React mounts
+    useEffect runs and sets data-theme='dark'
+    UI repaints in dark mode
+
+    Hence this causes a flick of light to dark on refresh.
+
+    Solve : we are setting the theme before React renders, in index.html with a tiny inline script in <head> that reads localStorage and sets document.documentElement.dataset.theme immediately.
+    */
+    (() => {
+      const THEME_KEY = 'licious-task-dashboard-theme'
+      const storedValue = localStorage.getItem(THEME_KEY)
+      let storedTheme = null
+
+      if (storedValue) {
+        try {
+          // The app persists theme as JSON, so parse first.
+          storedTheme = JSON.parse(storedValue)
+        } catch {
+          // Fallback in case a raw string was written.
+          storedTheme = storedValue
+        }
+      }
+
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const theme = storedTheme === 'light' || storedTheme === 'dark'
+        ? storedTheme
+        : prefersDark
+          ? 'dark'
+          : 'light'
+      document.documentElement.setAttribute('data-theme', theme)
+    })()
+  </script>
+  <title>licious-assignment</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
